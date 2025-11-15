@@ -13,16 +13,16 @@ dotenv.config()
 app.use(cors())
 app.use(express.json())
 
-// mongodb connect 
+// mongodb connect  
 connectDB()
-
+ 
 //port
 const PORT  = process.env.PORT
 app.use('/',(req,res)=>{
     res.send("Happy meeting")
 })
 app.listen(PORT,()=>{
-    console.log("Successfully running on PORT ",PORT)
+    console.log("Successfully running on PORT ",PORT) 
 
 
 })
