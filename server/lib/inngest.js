@@ -1,10 +1,18 @@
 import {Inngest} from 'inngest'
 import { connectDB } from './db.js'
 import User from '../models/User.js'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 
-// Create a client to send and receive events
-export const inngest = new Inngest({ id: "inter-meet" });
+// Create the Inngest client
+export const inngest = new Inngest({
+    id: "inter-meet",
+  eventKey: process.env.INNGEST_EVENT_KEY,
+  signingKey: process.env.INNGEST_SIGNING_KEY,
+
+})
 
 //inngest fnctions
 
