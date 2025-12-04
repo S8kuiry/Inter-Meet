@@ -23,7 +23,7 @@ app.use("/api/inngest", serve({ client: inngest, functions }));
 app.use('/', (req, res) => {
     res.send("Happy meeting")
 })
-
+ 
 //port
 const PORT = process.env.PORT
 app.listen(PORT, () => {
