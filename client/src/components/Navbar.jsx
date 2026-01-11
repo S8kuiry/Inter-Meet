@@ -20,7 +20,7 @@ const Navbar = () => {
   const isActive = (path) => location.pathname.includes(path)
 
   return (
-    <div className='w-full fixed top-0 z-30 bg-gray-900/90 border-b border-b-1 border-green-400/70 flex items-center justify-between px-8 py-4' >
+    <div className='w-full fixed top-0 z-30 bg-gray-900/90 border-b border-b-1 border-green-400/70 flex items-center justify-between px-8 py-3' >
 
       <Logo  size={40} />
 
@@ -50,7 +50,7 @@ const Navbar = () => {
         <SignedIn>
           <div 
             onClick={() => navigate(`/dashboard/${user?.id}`)} 
-            className={`${isActive('/dashboard') ? "bg-green-500 text-black" : "bg-transparent text-gray-400 border "} cursor-pointer active:scale-96 hover:scale-103 transition-all duration-300 px-4 py-3 rounded-lg font-bold flex items-center justify-center gap-2 text-xs`}
+            className={`${isActive('/dashboard') ? "border border-green-500  text-green-500" : "bg-transparent text-gray-400 border "} cursor-pointer active:scale-96 hover:scale-103 transition-all duration-300 px-4 py-3 rounded-lg font-bold flex items-center justify-center gap-2 text-xs`}
           >
             <LayoutDashboard className='size-4 font-bold' />
             Dashboard
