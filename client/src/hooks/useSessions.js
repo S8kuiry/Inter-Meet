@@ -2,7 +2,7 @@
 // query is used for fetching purposes
 // imported from @tanstack/react-query
 // the result here can be destructured
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { sessionApi } from '../api/sessions'
 import { toast } from 'react-toastify'
 
@@ -42,37 +42,35 @@ export const useMyRecentSessions = () => {
 
 
 export const useSessionById = (id) => {
-    const result = useQuery({
-        queryKey: [`session`, id],
+    return useQuery({
+        queryKey: ['session', id],
         queryFn: () => sessionApi.getSessionById(id),
         enabled: !!id,
-        refetchInterval: 5000,//refetch ebery 5 secs
-
-    })
-    return result
-}
+        refetchInterval: 5000,
+    });
+};
 
 
 export const useJoinSession = () => {
-    const result = useMutation({
-        mutationKey: ['joinSession'],
-        mutationFn:  sessionApi.joinSession,
-        onSuccess: () => toast.success("Joined Session Successfully!"),
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (id) => sessionApi.joinSession(id),
+        onSuccess: () => {
+            toast.success("Joined Session Successfully!");
+            queryClient.invalidateQueries(['session']);
+        },
         onError: (error) => {
-            toast.error(error.response?.data?.message || "Failed to Join Session")
+            toast.error(error.response?.data?.message || "Failed to Join Session");
         }
-    })
-    return result
-}
+    });
+};
 
 export const useEndSession = () => {
-    const result = useMutation({
-        mutationKey: ['endSession'],
-        mutationFn:  sessionApi.endSession,
+    return useMutation({
+        mutationFn: (id) => sessionApi.endSession(id),
         onSuccess: () => toast.success("Session Ended Successfully!"),
         onError: (error) => {
-            toast.error(error.response?.data?.message || "Failed to End Session")
+            toast.error(error.response?.data?.message || "Failed to End Session");
         }
-    })
-
-}
+    });
+};

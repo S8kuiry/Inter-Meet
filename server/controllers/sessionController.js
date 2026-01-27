@@ -109,6 +109,7 @@ export async function getSessionByid(req, res) {
     }
 }
 
+
 export async function joinSession(req, res) {
     try {
         const { id } = req.params
@@ -157,7 +158,7 @@ export async function endSession(req, res) {
             return res.json({ message: "Session is already completed " })
         }
 
-        session.status("completed")
+        session.status = "completed"
         await session.save()
 
         // delete Dtream Video Call
@@ -181,5 +182,21 @@ export async function endSession(req, res) {
 
 
     }
+}
+
+// delete session by id
+export const deleteSessionById = async(req,res)=>{
+    try {
+        const {id} = req.body;
+
+        await Session.findByIdAndDelete(id)
+        return res.json({message:"Session Deleted Successfully",success:true})
+        
+    } catch (error) {
+        console.log(error)
+        return res.json({message:"Session Could not be deleted",success:false})
+        
+    }
+
 }
 

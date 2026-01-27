@@ -1,16 +1,36 @@
-import { Clock, Presentation, Timer, Users, CheckCircle2 } from 'lucide-react';
+import { Clock, Presentation, Timer, Users, CheckCircle2, Trash } from 'lucide-react';
 import React from 'react';
 import moment from "moment";
-import {formatDistanceToNow} from 'date-fns'
+import { formatDistanceToNow } from 'date-fns'
+import axios from 'axios';
+import axiosInstance from '../lib/axios';
+import { toast } from 'react-toastify';
 
 const PastSessions = ({ data = [] }) => {
+
+    const handleDelete = async (id) => {
+        try {
+            let c = window.confirm("Are you sure you want to Delete this Session ?")
+            if (c) {
+                const res = await axiosInstance.delete('/api/sessions/delete', { data:{id}})
+                if (res.data.success) {
+                    toast.success("Session Deleted Successfully")
+                }
+
+            }
+        } catch (error) {
+            toast.error(error)
+
+        }
+
+    }
     return (
         <div className='my-8 mx-auto w-full max-w-8xl p-6 md:p-8 rounded-xl
             border border-white/10 bg-gray-900/40
             shadow-2xl backdrop-blur-xl'>
 
             {/* Header Section */}
-            <div className="flex items-center gap-4 mb-8">
+            <div className="flex  items-center gap-4 mb-8">
                 <div className="p-3 rounded-xl bg-teal-500/20 border border-teal-500/30
                     shadow-lg flex items-center justify-center">
                     <Timer className="text-teal-400" strokeWidth={2} size={22} />
@@ -27,7 +47,8 @@ const PastSessions = ({ data = [] }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {data.length > 0 ? (
                     data.map((itm, index) => (
-                        <div 
+                        <div
+                            onClick={() => handleDelete(itm._id)}
                             key={index}
                             className="group relative overflow-hidden rounded-lg bg-[#111] border border-white/5 
                                 hover:border-teal-500/40 transition-all duration-300 hover:-translate-y-1
@@ -47,23 +68,35 @@ const PastSessions = ({ data = [] }) => {
                                             {itm.session_name || "Untitled Session"}
                                         </h2>
                                     </div>
-                                    <div className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-teal-400 bg-teal-500/5 px-2 py-1 rounded-md border border-teal-500/10">
-                                        <CheckCircle2 size={10} />
-                                        Completed
+                                    <div className="flex gap-2 items-center justify-center">
+                                        <div className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-teal-400 bg-teal-500/5 px-2 py-1 rounded-md border border-teal-500/10">
+                                            <CheckCircle2 size={10} />
+                                            Completed
+                                        </div>
+
+                                        <div className="p-1 rounded-lg hover:bg-teal-500/20 bg-gray-500/20 border hover:border-teal-500/30  border-gray-500/30 
+                                        transition-all duration-100 cursor-pointer
+                                        transition-all duration-100 cursor-pointer
+                    shadow-lg flex items-center justify-center">
+                                            <Trash className="hover:text-teal-400 text-gray-400 transition-all duration-100" strokeWidth={2} size={13} />
+                                        </div>
+
+
                                     </div>
+
                                 </div>
 
                                 {/* Stats Section */}
                                 <div className="mt-6 space-y-3">
                                     <div className="flex items-center gap-2 text-gray-400">
-                                        <Clock className='size-4 text-teal-500/70'/>
-                                        <p className='text-sm'>{formatDistanceToNow(new Date(itm.createdAt),{
-                                            addSuffix:true
+                                        <Clock className='size-4 text-teal-500/70' />
+                                        <p className='text-sm'>{formatDistanceToNow(new Date(itm.createdAt), {
+                                            addSuffix: true
                                         })}</p>
                                     </div>
 
                                     <div className="flex items-center gap-2 text-gray-400">
-                                        <Users className='size-4 text-teal-500/70'/>
+                                        <Users className='size-4 text-teal-500/70' />
                                         <p className='text-sm font-medium'>
                                             {itm.participants?.length || itm.participants || 0} Participants
                                         </p>

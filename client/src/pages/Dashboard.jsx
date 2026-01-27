@@ -171,7 +171,7 @@ const Dashboard = () => {
                                     letterSpacing: '0.01em',
                                 }}
                             >
-                                Welcome Back, John!
+                                Welcome Back, {user?.firstName}!
                             </div>
 
                             {/* Tagline */}
