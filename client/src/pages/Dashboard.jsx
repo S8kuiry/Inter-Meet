@@ -8,7 +8,7 @@ import CreateSession from '../components/CreateSession';
 import { useSession } from '@clerk/clerk-react';
 import { useActiveSessions, useCreateSession, useMyRecentSessions } from '../hooks/useSessions';
 import { useNavigate } from 'react-router-dom';
-import {useUser} from '@clerk/clerk-react'
+import { useUser } from '@clerk/clerk-react'
 
 const pastSessions = [
     {
@@ -65,7 +65,7 @@ const pastSessions = [
 
 
 const Dashboard = () => {
-    const [ createSession, setCreateSession ] = useState(false)
+    const [createSession, setCreateSession] = useState(false)
     const naviagte = useNavigate()
     const { user } = useUser()
 
@@ -87,17 +87,26 @@ const Dashboard = () => {
 
     // 3. create session fucntion -----------------
     const createSessionMutation = useCreateSession();
-    const [roomConfig,setRoomConfig] = useState({session_name:""})
-    const handleCreateRoom = ()=>{
-        if(!roomConfig.session_name ) return
+    const [roomConfig, setRoomConfig] = useState({ session_name: "" })
+    const handleCreateRoom = () => {
+        if (!roomConfig.session_name) return
 
         createSessionMutation.mutate({
-            session_name:roomConfig.session_name
-        },{
-            onSuccess:(data) =>{
-                setCreateSession(false)
-                
-                naviagte(`/session/${data.session._id}`)
+            session_name: roomConfig.session_name
+        }, {
+            onSuccess: (data) => {
+                console.log("Backend Response:", data); // Check your browser console!
+                setCreateSession(false);
+
+                // Most backends return the object directly or nested differently. 
+                // Try one of these based on what your console shows:
+                const sessionId = data?._id || data?.session?._id || data?.id;
+
+                if (sessionId) {
+                    naviagte(`/session/${sessionId}`);
+                } else {
+                    console.error("Could not find ID in response", data);
+                }
             }
         })
     }
@@ -105,8 +114,8 @@ const Dashboard = () => {
     const recentSessions = recentData?.sessions || [];
 
     // checking whether i am a host or a participant 
-    const isUserInSession = (session)=>{
-        if(!user.id){
+    const isUserInSession = (session) => {
+        if (!user.id) {
             return false
         }
         return session.host?.clerkId === user.id || session.participant.clerkId === user.id
@@ -116,15 +125,15 @@ const Dashboard = () => {
             {/* Navbar */}
             <Navbar />
             {/* Create Session */}
-             <CreateSession
-              isOpen={createSession} 
-             onClose={()=>setCreateSession(false)} 
-             onCreateRoom={handleCreateRoom} 
-              roomConfig={roomConfig}
-        setRoomConfig={setRoomConfig}
-        isCreating={createSessionMutation.isPending}
-              />
-            
+            <CreateSession
+                isOpen={createSession}
+                onClose={() => setCreateSession(false)}
+                onCreateRoom={handleCreateRoom}
+                roomConfig={roomConfig}
+                setRoomConfig={setRoomConfig}
+                isCreating={createSessionMutation.isPending}
+            />
+
             <div className="w-[100vw] min-h-[100vh] bg-black flex flex-col items-center pt-28 pb-20 px-15">
                 {/* Dashboard Header */}
 
@@ -293,7 +302,7 @@ const Dashboard = () => {
                         <div className="w-full h-[80%] flex flex-col mt-15 overflow-y-scroll  ">
 
 
-  {/*---------------------------------- live session display ------------------------------------- */}
+                            {/*---------------------------------- live session display ------------------------------------- */}
 
                             {/* ---------- Session Card ---------- */}
                             {sessionsToDisplay.length > 0 ? sessionsToDisplay.map((itm, index) => (
@@ -340,7 +349,7 @@ const Dashboard = () => {
 
                                                 <div className="flex items-center gap-1.5 text-gray-400">
                                                     <Users className="size-3.5" />
-                                                    <p className="text-xs font-medium">{itm.participants?.length || 1}/2</p>
+                                                    <p className="text-xs font-medium">{itm.participants?.length || 1}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -405,10 +414,10 @@ const Dashboard = () => {
 
                 {/*--------------- past sessions ----------------- */}
                 <div className="w-[85vw] flex items-center justify-center">
-   <PastSessions data={recentSessions} />
+                    <PastSessions data={recentSessions} />
 
                 </div>
-             
+
 
 
 
