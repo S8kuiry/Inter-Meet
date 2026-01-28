@@ -17,16 +17,18 @@ dotenv.config()
 //middleware
 app.use(cors({
     origin: function (origin, callback) {
-        // Allow requests with no origin (like mobile apps, Postman, or curl)
-        if (!origin) return callback(null, true);
-        
-        // This effectively allows "all" origins while still supporting credentials
+        // This allows EVERY origin to connect, 
+        // which is what you want for "no filtering"
         callback(null, true); 
     },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"]
-}));
+    // Added 'X-Requested-With' and 'Accept' to be extra safe
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"]
+}));   
+
+
+
 app.use(express.json())
 app.use(clerkMiddleware())
 
