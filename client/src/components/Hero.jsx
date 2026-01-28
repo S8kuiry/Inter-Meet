@@ -64,7 +64,7 @@ const Hero = () => {
         {/*------ right --------- */}
 
         <div className="w-full md:w-[50%] flex justify-center mt-10 md:mt-0">
-          <img src='/hero.png' className='w-[90%] sm:w-[80%] md:w-[88%]' />
+          <img src='/hero.png' className='w-[90%] sm:w-[80%] md:w-[80%]' />
         </div>
 
       </div>

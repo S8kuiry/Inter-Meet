@@ -39,7 +39,11 @@ export async function createSession(req, res) {
         await channel.create()
 
         // Return the session object so your frontend (data.session._id) works
-        return res.status(201).json({ session })
+       return res.status(201).json({ 
+    success: true, 
+    sessionId: session._id, 
+    session 
+});
 
     } catch (error) {
         console.error("Error in createSession Controller:", error.message)

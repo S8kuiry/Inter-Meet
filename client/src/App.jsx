@@ -6,7 +6,7 @@ import Dashboard from './pages/Dashboard'
 import ProblemPage from './pages/ProblemPage'
 import {ToastContainer} from 'react-toastify'
 import SessionPage from './pages/SessionPage'
-/*----------- storyset.com pics free---------------- */
+/*-----------pics from storyset.com pics free---------------- */
 const App = () => {
   return (
     <div >

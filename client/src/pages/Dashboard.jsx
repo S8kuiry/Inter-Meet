@@ -100,7 +100,8 @@ const Dashboard = () => {
 
                 // Most backends return the object directly or nested differently. 
                 // Try one of these based on what your console shows:
-                const sessionId = data?._id || data?.session?._id || data?.id;
+                // Explicitly target the session object returned by your controller
+    const sessionId = data?.session?._id;
 
                 if (sessionId) {
                     naviagte(`/session/${sessionId}`);
