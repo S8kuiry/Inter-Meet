@@ -10,57 +10,7 @@ import { useActiveSessions, useCreateSession, useMyRecentSessions } from '../hoo
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '@clerk/clerk-react'
 
-const pastSessions = [
-    {
-        date: "2025-02-10",
-        session_name: "Web Development Basics",
-        participants: 42,
-        startTime: new Date("2025-02-10 10:00 AM"),
-        endTime: new Date("2025-02-10 11:30 AM")
-    },
-    {
-        date: "2025-02-12",
-        session_name: "Data Structures in C++",
-        participants: 35,
-        startTime: new Date("2025-02-12 2:00 PM"),
-        endTime: new Date("2025-02-12 3:15 PM")
-    },
-    {
-        date: "2025-02-14",
-        session_name: "Python for Machine Learning",
-        participants: 48,
-        startTime: new Date("2025-02-14 4:00 PM"),
-        endTime: new Date("2025-02-14 5:30 PM")
-    },
-    {
-        date: "2025-02-15",
-        session_name: "Networking Fundamentals",
-        participants: 29,
-        startTime: new Date("2025-02-15 9:00 AM"),
-        endTime: new Date("2025-02-15 10:45 AM")
-    },
-    {
-        date: "2025-02-17",
-        session_name: "Database Management Workshop",
-        participants: 53,
-        startTime: new Date("2025-02-17 1:00 PM"),
-        endTime: new Date("2025-02-17 2:30 PM")
-    },
-    {
-        date: "2025-02-18",
-        session_name: "Cloud Computing Essentials",
-        participants: 40,
-        startTime: new Date("2025-02-18 11:00 AM"),
-        endTime: new Date("2025-02-18 12:20 PM")
-    },
-    {
-        date: "2025-02-19",
-        session_name: "Advanced Java Concepts",
-        participants: 33,
-        startTime: new Date("2025-02-19 3:00 PM"),
-        endTime: new Date("2025-02-19 4:30 PM")
-    }
-];
+
 
 
 
